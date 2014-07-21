@@ -1,0 +1,16 @@
+# Rubocop,  we're buddies and all,  but we're going to have to disagree on the following -
+
+SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+UnusedBlockArgument:
+  Enabled: false
+
+WordArray:
+  MinSize: 5
+
+Style/LineLength:
+  Max: 120
+
+Style/MethodLength:
+  Max: 30
