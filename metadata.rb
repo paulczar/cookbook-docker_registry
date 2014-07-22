@@ -15,6 +15,6 @@ end
   depends ckbk
 end
 
-%w(yum apt apache2).each do |ckbk|
+%w(yum apt).each do |ckbk|
   recommends ckbk
 end

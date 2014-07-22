@@ -66,18 +66,43 @@ action :create do
     end
     new_resource.updated_by_last_action(dr_pip_reg.updated_by_last_action?)
 
+    case dr[:storage_driver]
+    when 'local'
+      dr_dir = directory dr[:storage_driver_options][:storage_path] do
+        recursive true
+        owner dr[:user]
+        group dr[:group]
+        mode '0700'
+        action :create
+      end
+      new_resource.updated_by_last_action(dr_dir.updated_by_last_action?)
+    when 's3'
+      # do notthing
+    when 'swift'
+      pip = python_pip 'docker-registry-driver-swift' do
+        virtualenv dr[:path]
+        user dr[:user]
+        group dr[:group]
+      end
+      new_resource.updated_by_last_action(pip.updated_by_last_action?)
+    else
+      Chef::Application.fatal!("#{dr[:storage_driver]} is not a currently supported storage driver")
+    end
   end
 end
 
 private
 
 def registry_resources
+  storage_driver_options = new_resource.storage_driver_options || node[:docker_registry]["#{new_resource.storage_driver}_options"]
   registry = {
     path: new_resource.path,
     user: new_resource.user,
     group: new_resource.group,
     version: new_resource.version,
-    install_type: new_resource.install_type
+    install_type: new_resource.install_type,
+    storage_driver: new_resource.storage_driver,
+    storage_driver_options: storage_driver_options
   }
   registry
 end

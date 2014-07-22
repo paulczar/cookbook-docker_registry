@@ -17,3 +17,5 @@ attribute :listen_port, kind_of: String, default: node[:docker_registry][:config
 attribute :flavor, kind_of: Array, default: node[:docker_registry][:config][:flavor]
 attribute :flavor_opts, kind_of: Hash, default: node[:docker_registry][:config][:flavor_opts]
 attribute :templates_cookbook, kind_of: String, default: node[:docker_registry][:templates_cookbook]
+attribute :storage_driver, kind_of: String, default: node[:docker_registry][:storage_driver]
+attribute :storage_driver_options, kind_of: String

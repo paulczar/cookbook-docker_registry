@@ -30,8 +30,9 @@ action :create do
       path: dr[:path],
       user: dr[:user],
       group: dr[:group]
-      )
+   )
     cookbook  dr[:templates_cookbook]
+    default_logger true
   end
   new_resource.updated_by_last_action(ri.updated_by_last_action?)
 end

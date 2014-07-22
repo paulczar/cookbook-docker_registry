@@ -36,11 +36,12 @@ action :create do
   new_resource.updated_by_last_action(dir.updated_by_last_action?)
 
   tpl = template "#{dr[:path]}/config/config.yml" do
-    source 'config.yml.erb'
+    source "#{dr[:storage_driver]}_config.yml.erb"
     cookbook dr[:templates_cookbook]
     group dr[:group]
     owner dr[:user]
     mode '0600'
+    variables registry: dr
     action :create
   end
   new_resource.updated_by_last_action(tpl.updated_by_last_action?)
@@ -60,6 +61,7 @@ end
 private
 
 def registry_resources
+  storage_driver_options = new_resource.storage_driver_options || node[:docker_registry]["#{new_resource.storage_driver}_options"]
   registry = {
     path: new_resource.path,
     user: new_resource.user,
@@ -68,7 +70,9 @@ def registry_resources
     listen_port: new_resource.listen_port,
     flavor: new_resource.flavor,
     flavor_opts: new_resource.flavor_opts,
-    templates_cookbook: new_resource.templates_cookbook
+    templates_cookbook: new_resource.templates_cookbook,
+    storage_driver: new_resource.storage_driver,
+    storage_driver_options: storage_driver_options
   }
   registry
 end

@@ -10,7 +10,7 @@ WordArray:
   MinSize: 5
 
 Style/LineLength:
-  Max: 120
+  Max: 150
 
 Style/MethodLength:
   Max: 30

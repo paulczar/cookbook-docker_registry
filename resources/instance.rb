@@ -14,3 +14,5 @@ attribute :install_type, kind_of: String, default: node[:docker_registry][:insta
 attribute :version, kind_of: String, default: node[:docker_registry][:version]
 attribute :user, kind_of: String, default: node[:docker_registry][:user]
 attribute :group, kind_of: String, default: node[:docker_registry][:group]
+attribute :storage_driver, kind_of: String, default: node[:docker_registry][:storage_driver]
+attribute :storage_driver_options, kind_of: String

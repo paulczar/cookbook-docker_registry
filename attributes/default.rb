@@ -32,3 +32,36 @@ default[:docker_registry][:config][:flavor_opts] = {
 # set to `attributes` if using attributes.
 default[:docker_registry][:secrets] = ''
 default[:docker_registry][:encrypted_databag] = false # true or false
+
+default[:docker_registry][:ui][:listen_port] = '8080'
+default[:docker_registry][:ui][:listen_ip] = '127.0.0.1'
+default[:docker_registry][:ui][:config_dir] = '/opt/docker_registry_ui'
+
+# storage driver to enable.
+# valid options: local, s3, swift
+default[:docker_registry][:storage_driver] = 'local'
+
+# settings for local storage driver
+default[:docker_registry][:local_options] = {
+  storage_path: '/tmp/registry'
+}
+
+# settings for s3 storage driver
+default[:docker_registry][:s3_options] = {
+  s3_region: 'us-west-1',
+  s3_bucket: 'my_docker',
+  storage_path: "#{[:docker_registry][:path]}/storage",
+  s3_access_key: '',
+  s3_secret_key: ''
+}
+
+# settings for swift storage driver
+default[:docker_registry][:swift_options] = {
+  storage_path: '/registry',
+  swift_authurl: 'https://identity.api.rackspacecloud.com/v2.0/',
+  swift_container: 'my_docker',
+  swift_user: '',
+  swift_password: '',
+  swift_tenant_name: '',
+  swift_region_name: 'DFW'
+}

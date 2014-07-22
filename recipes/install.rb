@@ -17,5 +17,3 @@ service 'docker_registry' do
   subscribes :restart, "template/#{node[:docker_registry][:path]}/config/config.yml"
   subscribes :restart, "template/#{node[:docker_registry][:path]}/config/config.env"
 end
-
-include_recipe 'docker::default'
