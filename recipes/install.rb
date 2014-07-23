@@ -10,7 +10,9 @@ docker_registry_instance 'docker_registry'
 
 docker_registry_config 'docker_registry'
 
-docker_registry_service 'docker_registry'
+docker_registry_service 'docker_registry' do
+  subscribes :restart, 'docker_registry_config[docker_registry]'
+end
 
 service 'docker_registry' do
   action :nothing

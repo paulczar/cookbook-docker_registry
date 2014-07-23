@@ -40,17 +40,18 @@ default[:docker_registry][:ui][:config_dir] = '/opt/docker_registry_ui'
 # storage driver to enable.
 # valid options: local, s3, swift
 default[:docker_registry][:storage_driver] = 'local'
+default[:docker_registry][:storage_driver_version] = ''
 
 # settings for local storage driver
 default[:docker_registry][:local_options] = {
-  storage_path: '/tmp/registry'
+  storage_path: "#{node[:docker_registry][:path]}/storage"
 }
 
 # settings for s3 storage driver
 default[:docker_registry][:s3_options] = {
   s3_region: 'us-west-1',
   s3_bucket: 'my_docker',
-  storage_path: "#{[:docker_registry][:path]}/storage",
+  storage_path: '/registry',
   s3_access_key: '',
   s3_secret_key: ''
 }

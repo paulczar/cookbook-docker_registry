@@ -4,7 +4,7 @@
 # Copyright 2014, Paul Czarkowski
 # License:: Apache 2.0
 
-actions :create, :remove
+actions :create, :remove, :restart
 
 default_action :create if defined?(default_action)
 

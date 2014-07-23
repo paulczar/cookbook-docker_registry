@@ -22,6 +22,15 @@ action :remove do
   end
 end
 
+action :restart do
+  dr = registry_resources
+  @run_context.include_recipe 'runit::default'
+  ri = runit_service dr[:name] do
+    action :restart
+  end
+  new_resource.updated_by_last_action(ri.updated_by_last_action?)
+end
+
 action :create do
   dr = registry_resources
   @run_context.include_recipe 'runit::default'

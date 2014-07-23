@@ -79,12 +79,23 @@ action :create do
     when 's3'
       # do notthing
     when 'swift'
+      libxml = package 'libxml2-dev'
+      new_resource.updated_by_last_action(libxml.updated_by_last_action?)
+      libxslt = package 'libxslt-dev'
+      new_resource.updated_by_last_action(libxslt.updated_by_last_action?)
       pip = python_pip 'docker-registry-driver-swift' do
         virtualenv dr[:path]
         user dr[:user]
         group dr[:group]
+        version dr[:storage_driver_version] unless dr[:storage_driver_version].nil?
       end
       new_resource.updated_by_last_action(pip.updated_by_last_action?)
+      ks = python_pip 'python-keystoneclient' do
+        virtualenv dr[:path]
+        user dr[:user]
+        group dr[:group]
+      end
+      new_resource.updated_by_last_action(ks.updated_by_last_action?)
     else
       Chef::Application.fatal!("#{dr[:storage_driver]} is not a currently supported storage driver")
     end
@@ -102,7 +113,8 @@ def registry_resources
     version: new_resource.version,
     install_type: new_resource.install_type,
     storage_driver: new_resource.storage_driver,
-    storage_driver_options: storage_driver_options
+    storage_driver_options: storage_driver_options,
+    storage_driver_version: new_resource.storage_driver_version
   }
   registry
 end
