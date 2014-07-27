@@ -1,7 +1,15 @@
 #!/bin/sh
 exec 2>&1
 
+<% if @options[:install_type] == 'pip' -%>
 . <%= @options[:path] %>/bin/activate
 . <%= @options[:path] %>/config/config.env
-
 exec chpst -u <%= @options[:user] %>:<%= @options[:group] %> <%= @options[:path] %>/bin/gunicorn --access-logfile - --debug -k gevent -b ${IP}:${PORT} -w 1 docker_registry.wsgi:application
+<% elsif @options[:install_type] == 'docker' -%>
+exec /usr/bin/docker run \
+  --publish <%= @options[:listen_ip] %>:<%= @options[:listen_port] %>:5000 \
+  --name <%= @options[:name] %> \
+  --env-file <%= "#{@options[:path]}/config/#{@options[:name]}.env" %> \
+  --rm \
+  <%= @options[:docker_image] %>
+<% end -%>

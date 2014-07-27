@@ -46,9 +46,9 @@ swift: &swift
     storage: swift
     storage_path: <%= @registry[:storage_driver_options][:storage_path] %>
     # keystone authorization
-    swift_authurl: <%= @registry[:storage_driver_options][:swift_authurl] %>
-    swift_container: <%= @registry[:storage_driver_options][:swift_container] %>
-    swift_user: <%= @registry[:storage_driver_options][:swift_user] %>
-    swift_password: <%= @registry[:storage_driver_options][:swift_password] %>
-    swift_tenant_name: <%= @registry[:storage_driver_options][:swift_tenant_name] %>
-    swift_region_name: <%= @registry[:storage_driver_options][:swift_region_name] %>
+    swift_authurl: <%= @registry[:storage_driver_options][:os_auth_url] %>
+    swift_container: <%= @registry[:storage_driver_options][:os_container] %>
+    swift_user: <%= @registry[:storage_driver_options][:os_username] %>
+    swift_password: <%= @registry[:storage_driver_options][:os_password] %>
+    swift_tenant_name: <%= @registry[:storage_driver_options][:os_tenant_name] %>
+    swift_region_name: <%= @registry[:storage_driver_options][:os_region_name] %>

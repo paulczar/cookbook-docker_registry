@@ -20,20 +20,13 @@ Usage
 
 This simply enables the cookbook LWRPs.
 
-#### docker_registry::install.rb
+#### docker_registry::install
 
 Example recipe showing how to use the LWRPs...  Installs a very basic docker_registry.
 
-Just include `docker_registry::install` in your node's `run_list`:
+#### docker_registry::webui
 
-```json
-{
-  "name":"my_node",
-  "run_list": [
-    "recipe[docker_registry::install]"
-  ]
-}
-```
+Runs a docker registry webui container
 
 Contributing
 ------------

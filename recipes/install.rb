@@ -6,16 +6,20 @@
 # Copyright 2014, Paul Czarkowski
 #
 
-docker_registry_instance 'docker_registry'
-
-docker_registry_config 'docker_registry'
-
-docker_registry_service 'docker_registry' do
-  subscribes :restart, 'docker_registry_config[docker_registry]'
+docker_registry_instance 'registry' do
+  install_type 'docker'
+  version 'latest'
+  docker_image 'registry'
 end
 
-service 'docker_registry' do
-  action :nothing
-  subscribes :restart, "template/#{node[:docker_registry][:path]}/config/config.yml"
-  subscribes :restart, "template/#{node[:docker_registry][:path]}/config/config.env"
+docker_registry_config 'registry' do
+  install_type 'docker'
+  version 'latest'
+end
+
+docker_registry_service 'registry' do
+  install_type 'docker'
+  version 'latest'
+  subscribes :restart, 'docker_registry_config[registry]', :delayed
+  action [:enable, :start]
 end

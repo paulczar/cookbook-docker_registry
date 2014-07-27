@@ -25,27 +25,10 @@ action :create do
   dr = registry_resources
   Chef::Log.info("Installing docker_registry to #{dr[:path]} via #{dr[:install_type]}")
 
-  ur = user dr[:user] do
-    home dr[:path]
-    system true
-    action :create
-    manage_home true
-    uid dr[:uid]
-  end
-  new_resource.updated_by_last_action(ur.updated_by_last_action?)
-
-  gr = group dr[:group] do
-    gid dr[:gid]
-    members dr[:user]
-    append true
-    system true
-  end
-  new_resource.updated_by_last_action(gr.updated_by_last_action?)
-
   case dr[:install_type]
   when 'pip'
     @run_context.include_recipe 'python::default'
-
+    create_user(dr)
     %w(build-essential libevent-dev liblzma-dev).each do |pkg|
       i_pkg = package pkg
       new_resource.updated_by_last_action(i_pkg.updated_by_last_action?)
@@ -99,6 +82,16 @@ action :create do
     else
       Chef::Application.fatal!("#{dr[:storage_driver]} is not a currently supported storage driver")
     end
+  when 'docker'
+    @run_context.include_recipe 'docker::default'
+    create_user(dr)
+    di = docker_image dr[:docker_image] do
+      tag dr[:version]
+      action :pull
+    end
+    new_resource.updated_by_last_action(di.updated_by_last_action?)
+  else
+    Chef::Application.fatal!("#{dr[:install_type]} is not a supported method")
   end
 end
 
@@ -106,6 +99,7 @@ private
 
 def registry_resources
   storage_driver_options = new_resource.storage_driver_options || node[:docker_registry]["#{new_resource.storage_driver}_options"]
+  docker_image = new_resource.docker_image || node[:docker_registry][:images][new_resource.storage_driver]
   registry = {
     path: new_resource.path,
     user: new_resource.user,
@@ -114,7 +108,27 @@ def registry_resources
     install_type: new_resource.install_type,
     storage_driver: new_resource.storage_driver,
     storage_driver_options: storage_driver_options,
-    storage_driver_version: new_resource.storage_driver_version
+    storage_driver_version: new_resource.storage_driver_version,
+    docker_image: docker_image
   }
   registry
+end
+
+def create_user(dr = registry_resources)
+  ur = user dr[:user] do
+    home dr[:path]
+    system true
+    action :create
+    manage_home true
+    uid dr[:uid]
+  end
+  new_resource.updated_by_last_action(ur.updated_by_last_action?)
+
+  gr = group dr[:group] do
+    gid dr[:gid]
+    members dr[:user]
+    append true
+    system true
+  end
+  new_resource.updated_by_last_action(gr.updated_by_last_action?)
 end
