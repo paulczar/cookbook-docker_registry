@@ -38,3 +38,6 @@ begin
   rescue LoadError
   puts '>>>>> Kitchen gem not loaded, omitting tasks' unless ENV['CI']
 end
+
+require 'stove/rake_task'
+Stove::RakeTask.new
