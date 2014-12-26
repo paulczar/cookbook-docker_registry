@@ -7,19 +7,16 @@
 #
 
 docker_registry_instance 'registry' do
-  install_type 'docker'
   version 'latest'
   docker_image 'registry'
 end
 
 docker_registry_config 'registry' do
-  install_type 'docker'
   version 'latest'
 end
 
 docker_registry_service 'registry' do
-  install_type 'docker'
   version 'latest'
   subscribes :restart, 'docker_registry_config[registry]', :delayed
-  action [:enable, :start]
+  action [:enable]
 end

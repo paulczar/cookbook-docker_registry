@@ -7,7 +7,7 @@
 default[:docker_registry][:version] = '0.7.3'
 
 # method to install (pip)
-default[:docker_registry][:install_type] = 'pip'
+default[:docker_registry][:install_type] = 'docker'
 
 # docker images for docker install method
 default[:docker_registry][:images] = {

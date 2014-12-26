@@ -23,10 +23,9 @@ end
 
 action :create do
   dr = registry_resources
-  Chef::Log.info("Installing docker_registry to #{dr[:path]} via #{dr[:install_type]}")
-
   case dr[:install_type]
   when 'pip'
+    Chef::Log.info("Installing docker_registry to #{dr[:path]} via #{dr[:install_type]}")
     @run_context.include_recipe 'python::default'
     create_user(dr)
     %w(build-essential libevent-dev liblzma-dev).each do |pkg|
@@ -83,6 +82,7 @@ action :create do
       Chef::Application.fatal!("#{dr[:storage_driver]} is not a currently supported storage driver")
     end
   when 'docker'
+    Chef::Log.info("Installing docker_registry image #{dr[:docker_image]} via #{dr[:install_type]}")
     @run_context.include_recipe 'docker::default'
     create_user(dr)
     di = docker_image dr[:docker_image] do
