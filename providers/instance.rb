@@ -28,7 +28,7 @@ action :create do
     Chef::Log.info("Installing docker_registry to #{dr[:path]} via #{dr[:install_type]}")
     @run_context.include_recipe 'python::default'
     create_user(dr)
-    %w(build-essential libevent-dev liblzma-dev).each do |pkg|
+    %w(build-essential libevent-dev liblzma-dev swig).each do |pkg|
       i_pkg = package pkg
       new_resource.updated_by_last_action(i_pkg.updated_by_last_action?)
     end

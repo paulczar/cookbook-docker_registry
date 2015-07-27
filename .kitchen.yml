@@ -10,15 +10,17 @@ platforms:
 
 suites:
   - name: pip
-    run_list: recipe[apt::default]
-    run_list: recipe[docker_registry::install]
+    run_list:
+      - recipe[apt::default]
+      - recipe[docker_registry::install]
     attributes:
       docker_registry:
         install_type: pip
 
   - name: docker
-    run_list: recipe[apt::default]
-    run_list: recipe[docker_registry::install]
+    run_list:
+      - recipe[apt::default]
+      - recipe[docker_registry::install]
     attributes:
       docker_registry:
         install_type: docker
