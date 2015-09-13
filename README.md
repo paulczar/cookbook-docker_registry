@@ -18,15 +18,32 @@ Usage
 
 #### docker_registry::default
 
-This simply enables the cookbook LWRPs.
+calls `docker_registry::install`
 
 #### docker_registry::install
 
-Example recipe showing how to use the LWRPs...  Installs a very basic docker_registry.
+Installs and runs docker registry
 
-#### docker_registry::webui
+Testing
+-------
 
-Runs a docker registry webui container
+If you have ChefDK
+
+```
+$ chef exec bundle install --without=ruby
+$ chef exec berks install
+$ chef exec rake
+```
+
+If you do not have ChefDK
+
+```
+$ bundle install
+$ berks install
+$ chef exec rake
+```
+
+
 
 Contributing
 ------------
@@ -44,7 +61,7 @@ License and Authors
 
 Paul Czarkowski
 
-Copyright 2014 Paul Czarkowski
+Copyright 2014,2015 Paul Czarkowski
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

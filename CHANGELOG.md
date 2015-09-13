@@ -3,9 +3,12 @@ docker_registry CHANGELOG
 
 This file is used to list changes made in each version of the docker_registry cookbook.
 
-0.1.0
------
-- [your_name] - Initial release of docker_registry
+## 0.2.0
+- Rewrite to support v2 of registry
+- only supports docker install method
+
+## 0.1.0
+- Initial release of docker_registry
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.

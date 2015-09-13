@@ -5,3 +5,5 @@
 #
 # Copyright 2014, Paul Czarkowski
 #
+
+include_recipe "docker_registry::registry"

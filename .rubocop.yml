@@ -9,8 +9,14 @@ UnusedBlockArgument:
 WordArray:
   MinSize: 5
 
-Style/LineLength:
+Metrics/LineLength:
   Max: 150
 
-Style/MethodLength:
+Metrics/MethodLength:
   Max: 30
+
+Metrics/AbcSize:
+  Max: 42
+
+Style/RegexpLiteral:
+  Enabled: false
