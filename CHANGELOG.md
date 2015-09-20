@@ -3,6 +3,10 @@ docker_registry CHANGELOG
 
 This file is used to list changes made in each version of the docker_registry cookbook.
 
+## 0.3.0
+- minimize dependencies
+- support nginx frontend for SSL
+
 ## 0.2.0
 - Rewrite to support v2 of registry
 - only supports docker install method

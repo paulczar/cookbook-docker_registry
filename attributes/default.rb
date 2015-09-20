@@ -3,6 +3,8 @@
 # Cookbook Name:: docker_registry
 # Attributes:: default
 
+# install docker when running recipe
+default['docker_registry']['install_docker'] = true
 
 # docker image
 default['docker_registry']['image'] = 'registry'
@@ -17,8 +19,11 @@ default['docker_registry']['volume_mount'] = ''
 default['docker_registry']['name'] = 'docker_registry'
 
 # IP and Port to listen on.
-default['docker_registry']['listen_ip'] = '0.0.0.0'
-default['docker_registry']['listen_port'] = 5000
+default['docker_registry']['ip'] = '0.0.0.0'
+default['docker_registry']['port'] = 5000
+
+# Insecure registry
+default['docker_registry']['insecure'] = nil
 
 # databag containing docker_registry secrets.
 # set to `attributes` if using attributes.

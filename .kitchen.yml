@@ -10,6 +10,19 @@ platforms:
 
 suites:
   - name: docker
-    run_list: recipe[docker_registry::default]
-#    attributes:
-#     docker_registry:
+    run_list:
+      - recipe[apt::default]
+      - recipe[nginx::default]
+      - recipe[openssl::default]
+      - recipe[docker_registry::default]
+      - recipe[docker_registry::nginx]
+    attributes:
+      docker_registry:
+        ip: 127.0.0.1
+        port: 5000
+        insecure: registry.local
+        web:
+          hostname: registry.local
+          ssl:
+            enabled: true
+            selfsigned: true

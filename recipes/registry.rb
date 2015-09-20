@@ -6,10 +6,18 @@
 # Copyright 2014, Paul Czarkowski
 #
 
+if node['docker_registry']['ip'] == '0.0.0.0'
+  registry_ip = '127.0.0.1'
+else
+  registry_ip = node['docker_registry']['ip']
+end
+registry_port = node['docker_registry']['port']
+
 docker_service 'default' do
   provider Chef::Provider::DockerService::Upstart
-  insecure_registry '127.0.0.1:5000'
+  insecure_registry node['docker_registry']['insecure']
   action [:create, :start]
+  only_if { node['docker_registry']['install_docker'] }
 end
 
 docker_image node['docker_registry']['image'] do
@@ -39,8 +47,8 @@ end
 docker_container node['docker_registry']['name'] do
   repo node['docker_registry']['image']
   tag node['docker_registry']['version']
-  port "#{node['docker_registry']['listen_ip']}:#{node['docker_registry']['listen_port']}:5000"
+  port "#{node['docker_registry']['ip']}:#{node['docker_registry']['port']}:5000"
   env envs
   binds vols
- action :run
+  action :run
 end

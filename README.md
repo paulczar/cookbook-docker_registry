@@ -1,12 +1,23 @@
 docker_registry Cookbook
 ========================
 
-This is a library cookbook written to help you install and run a docker registry of your very own.
+This is a cookbook written to help you install and run a docker registry of
+your very own.
+
+It only supports the newest version of the registry ( `> 2` ) and will also
+run an nginx proxy if you want SSL or authentication.
+
+You can choose to back the filestore locally, or via s3 or swift.   When backing the filestore with s3 or swift I highly recommend running the registry on `localhost` with no SSL or authentication on every server that wants to access the registry. see http://bridgetkromhout.com/speaking/2015/oscon/ and http://0x74696d.com/posts/host-local-docker-registry/.
 
 Requirements
 ------------
 
-All requirements should be listed in `metadata.rb`
+The only hard requirement is the `docker` cookbook which is listed in
+`metadata.rb`.
+
+If you want the cookbook to also run an `nginx` proxy for you, you will
+need to add the appropriate cookbooks in the `recommends` section of 
+`metadata.rb` to your run list.  see `.kitchen.yml` for an example of this.
 
 Attributes
 ----------
@@ -20,9 +31,22 @@ Usage
 
 calls `docker_registry::install`
 
-#### docker_registry::install
+#### docker_registry::registry
 
 Installs and runs docker registry
+
+#### docker_registry::nginx
+
+Installs and runs nginx proxy for registry
+
+Allows you to secure the registry with SSL.
+
+see `.kitchen.yml` for runlist and attributes to create an SSL (self-signed)
+protected registry.
+
+To interact with the registry inside the TK instance you'll need to set
+`127.0.0.1 registry.local` in hosts files.
+
 
 Testing
 -------
